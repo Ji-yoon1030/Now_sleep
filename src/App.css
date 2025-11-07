@@ -44,6 +44,9 @@
   padding: 30px;
   border-radius: 15px;
   margin-bottom: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .label {
@@ -53,6 +56,7 @@
   color: #333;
   margin-bottom: 15px;
   text-align: center;
+  width: 100%;
 }
 
 .time-input {
@@ -66,6 +70,16 @@
   border-radius: 10px;
   text-align: center;
   transition: all 0.3s ease;
+  box-sizing: border-box;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+.time-input::-webkit-calendar-picker-indicator {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .time-input:focus {
@@ -399,7 +413,27 @@
   }
 
   .input-section {
-    padding: 22px;
+    padding: 20px 18px;
+    width: 100%;
+  }
+
+  .label {
+    font-size: 1.1rem;
+    margin-bottom: 12px;
+  }
+
+  .time-input {
+    max-width: 100%;
+    width: 100%;
+    padding: 14px 16px;
+    font-size: 1.3rem;
+  }
+
+  .calculate-button {
+    max-width: 100%;
+    width: 100%;
+    padding: 14px 24px;
+    font-size: 1.1rem;
   }
 
   .bedtimes-grid {
@@ -460,7 +494,7 @@
 
   .container {
     border-radius: 12px;
-    padding: 18px;
+    padding: 16px;
   }
 
   .header {
@@ -477,21 +511,34 @@
   }
 
   .input-section {
-    padding: 18px;
+    padding: 16px;
+    width: 100%;
   }
 
   .label {
     font-size: 1rem;
+    margin-bottom: 10px;
   }
 
   .time-input {
+    max-width: 100%;
+    width: 100%;
     font-size: 1.2rem;
-    padding: 12px 16px;
+    padding: 12px 10px;
+    margin-bottom: 15px;
   }
 
   .calculate-button {
+    max-width: 100%;
+    width: 100%;
     font-size: 1rem;
-    padding: 14px 24px;
+    padding: 13px 20px;
+  }
+
+  .error-message {
+    font-size: 0.85rem;
+    padding: 10px;
+    margin-top: 12px;
   }
 
   .result-section h2 {
@@ -573,6 +620,27 @@
 
   .calculate-button:active:not(:disabled) {
     transform: scale(0.98);
+  }
+}
+
+/* iPhone 14 Pro 및 유사 기기 (390px x 844px) */
+@media (max-width: 390px) {
+  .container {
+    padding: 14px;
+  }
+
+  .input-section {
+    padding: 14px 12px;
+  }
+
+  .time-input {
+    padding: 12px 8px;
+    font-size: 1.1rem;
+  }
+
+  .calculate-button {
+    padding: 12px 18px;
+    font-size: 0.95rem;
   }
 }
 
