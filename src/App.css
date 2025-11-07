@@ -1,0 +1,774 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* 기본 스타일 (데스크탑) */
+.App {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.container {
+  max-width: 1100px;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 20px;
+  padding: 50px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.header h1 {
+  font-size: 3rem;
+  color: #667eea;
+  margin-bottom: 10px;
+}
+
+.subtitle {
+  color: #666;
+  font-size: 1.1rem;
+}
+
+.input-section {
+  background: #f8f9fa;
+  padding: 30px;
+  border-radius: 15px;
+  margin-bottom: 30px;
+}
+
+.label {
+  display: block;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.time-input {
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto 20px;
+  display: block;
+  padding: 15px 20px;
+  font-size: 1.5rem;
+  border: 2px solid #ddd;
+  border-radius: 10px;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.time-input:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.calculate-button {
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+  display: block;
+  padding: 15px 30px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: white;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+}
+
+.calculate-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+}
+
+.calculate-button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.calculate-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.error-message {
+  margin-top: 15px;
+  padding: 12px;
+  background: #fff3cd;
+  color: #856404;
+  border: 1px solid #ffeaa7;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.result-section {
+  animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.result-section h2 {
+  color: #667eea;
+  font-size: 2rem;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.result-message {
+  text-align: center;
+  color: #666;
+  margin-bottom: 25px;
+  font-size: 1.05rem;
+}
+
+.bedtimes-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 25px;
+  margin-bottom: 25px;
+}
+
+.bedtime-card {
+  background: white;
+  border: 3px solid #e9ecef;
+  border-radius: 15px;
+  padding: 28px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.bedtime-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 5px;
+  transition: all 0.3s ease;
+}
+
+.bedtime-card.perfect::before {
+  background: linear-gradient(90deg, #667eea, #764ba2);
+}
+
+.bedtime-card.good::before {
+  background: linear-gradient(90deg, #4facfe, #00f2fe);
+}
+
+.bedtime-card.minimum::before {
+  background: linear-gradient(90deg, #fa709a, #fee140);
+}
+
+.bedtime-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.bedtime-card.perfect:hover {
+  border-color: #667eea;
+}
+
+.bedtime-card.good:hover {
+  border-color: #4facfe;
+}
+
+.bedtime-card.minimum:hover {
+  border-color: #fa709a;
+}
+
+.condition-label {
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-align: center;
+  margin-bottom: 12px;
+  color: #666;
+}
+
+.bedtime-card.perfect .condition-label {
+  color: #667eea;
+}
+
+.bedtime-card.good .condition-label {
+  color: #4facfe;
+}
+
+.bedtime-card.minimum .condition-label {
+  color: #fa709a;
+}
+
+.bedtime-time {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #333;
+  text-align: center;
+  margin-bottom: 15px;
+  font-family: "Courier New", monospace;
+}
+
+.bedtime-info {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+}
+
+.duration {
+  color: #333;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.cycles {
+  color: #666;
+  font-size: 0.95rem;
+  padding: 4px 12px;
+  background: #f8f9fa;
+  border-radius: 20px;
+}
+
+.info-box {
+  background: #e7f3ff;
+  border-left: 4px solid #667eea;
+  padding: 20px;
+  border-radius: 8px;
+  color: #333;
+}
+
+.info-box p {
+  margin-bottom: 8px;
+  line-height: 1.6;
+}
+
+.info-box p:last-child {
+  margin-bottom: 0;
+}
+
+.info-box strong {
+  color: #667eea;
+}
+
+.quality-score-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 25px;
+  border-radius: 15px;
+  margin-bottom: 30px;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.score-badge {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.score-number {
+  font-size: 3rem;
+  font-weight: bold;
+  color: white;
+  font-family: "Courier New", monospace;
+}
+
+.score-grade {
+  font-size: 2rem;
+  font-weight: bold;
+  color: rgba(255, 255, 255, 0.9);
+  padding: 8px 16px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  backdrop-filter: blur(10px);
+}
+
+.score-description {
+  font-size: 1.2rem;
+  color: white;
+  font-weight: 600;
+}
+
+.sleep-tips-box {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  padding: 25px;
+  border-radius: 15px;
+  margin-bottom: 25px;
+  border: 2px solid #dee2e6;
+}
+
+.tips-title {
+  font-size: 1.3rem;
+  color: #667eea;
+  margin-bottom: 15px;
+  text-align: center;
+  font-weight: 700;
+}
+
+.tips-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.tip-item {
+  padding: 12px 20px;
+  margin-bottom: 10px;
+  background: white;
+  border-radius: 10px;
+  font-size: 1rem;
+  color: #333;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+  border-left: 4px solid #667eea;
+}
+
+.tip-item:last-child {
+  margin-bottom: 0;
+}
+
+.tip-item:hover {
+  transform: translateX(5px);
+  box-shadow: 0 4px 10px rgba(102, 126, 234, 0.15);
+}
+
+/* 태블릿 (768px ~ 1023px) */
+@media (max-width: 1023px) {
+  .container {
+    max-width: 800px;
+    padding: 35px;
+  }
+
+  .bedtimes-grid {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+  }
+
+  .bedtime-card {
+    padding: 25px;
+  }
+}
+
+/* 모바일 (480px ~ 767px) */
+@media (max-width: 767px) {
+  .App {
+    padding: 15px;
+  }
+
+  .container {
+    padding: 25px;
+    border-radius: 15px;
+  }
+
+  .header {
+    margin-bottom: 28px;
+  }
+
+  .header h1 {
+    font-size: 2.2rem;
+  }
+
+  .subtitle {
+    font-size: 1rem;
+  }
+
+  .input-section {
+    padding: 22px;
+  }
+
+  .bedtimes-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .bedtime-card {
+    padding: 22px;
+  }
+
+  .bedtime-time {
+    font-size: 2.2rem;
+  }
+
+  .info-box {
+    padding: 16px;
+  }
+
+  .quality-score-box {
+    padding: 20px;
+    gap: 15px;
+  }
+
+  .score-number {
+    font-size: 2.5rem;
+  }
+
+  .score-grade {
+    font-size: 1.5rem;
+  }
+
+  .score-description {
+    font-size: 1rem;
+  }
+
+  .sleep-tips-box {
+    padding: 20px;
+  }
+
+  .tips-title {
+    font-size: 1.1rem;
+  }
+
+  .tip-item {
+    font-size: 0.95rem;
+    padding: 10px 15px;
+  }
+}
+
+/* 작은 모바일 (~ 479px) */
+@media (max-width: 479px) {
+  .App {
+    padding: 10px;
+    align-items: flex-start;
+    padding-top: 20px;
+  }
+
+  .container {
+    border-radius: 12px;
+    padding: 18px;
+  }
+
+  .header {
+    margin-bottom: 20px;
+  }
+
+  .header h1 {
+    font-size: 1.8rem;
+  }
+
+  .subtitle {
+    font-size: 0.9rem;
+    padding: 0 5px;
+  }
+
+  .input-section {
+    padding: 18px;
+  }
+
+  .label {
+    font-size: 1rem;
+  }
+
+  .time-input {
+    font-size: 1.2rem;
+    padding: 12px 16px;
+  }
+
+  .calculate-button {
+    font-size: 1rem;
+    padding: 14px 24px;
+  }
+
+  .result-section h2 {
+    font-size: 1.5rem;
+  }
+
+  .result-message {
+    font-size: 0.9rem;
+  }
+
+  .bedtime-card {
+    padding: 18px;
+  }
+
+  .bedtime-time {
+    font-size: 2rem;
+  }
+
+  .condition-label {
+    font-size: 0.8rem;
+  }
+
+  .duration {
+    font-size: 1rem;
+  }
+
+  .cycles {
+    font-size: 0.85rem;
+  }
+
+  .info-box {
+    padding: 12px;
+    font-size: 0.9rem;
+  }
+
+  .quality-score-box {
+    flex-direction: column;
+    padding: 18px;
+    gap: 12px;
+  }
+
+  .score-badge {
+    gap: 12px;
+  }
+
+  .score-number {
+    font-size: 2rem;
+  }
+
+  .score-grade {
+    font-size: 1.3rem;
+    padding: 6px 12px;
+  }
+
+  .score-description {
+    font-size: 0.95rem;
+    text-align: center;
+  }
+
+  .sleep-tips-box {
+    padding: 16px;
+  }
+
+  .tips-title {
+    font-size: 1rem;
+    margin-bottom: 12px;
+  }
+
+  .tip-item {
+    font-size: 0.85rem;
+    padding: 10px 12px;
+    margin-bottom: 8px;
+  }
+
+  /* 터치 디바이스에서 active 상태 */
+  .bedtime-card:active {
+    transform: scale(0.98);
+  }
+
+  .calculate-button:active:not(:disabled) {
+    transform: scale(0.98);
+  }
+}
+
+/* 가로 모드 모바일 */
+@media (max-height: 600px) and (orientation: landscape) {
+  .App {
+    align-items: flex-start;
+    padding: 15px 20px;
+  }
+
+  .container {
+    margin: 10px 0;
+  }
+
+  .header {
+    margin-bottom: 20px;
+  }
+
+  .header h1 {
+    font-size: 2rem;
+  }
+
+  .subtitle {
+    font-size: 0.95rem;
+  }
+
+  .input-section {
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+
+  .bedtimes-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+  }
+
+  .bedtime-card {
+    padding: 15px;
+  }
+
+  .bedtime-time {
+    font-size: 2rem;
+  }
+
+  .info-box {
+    padding: 12px;
+  }
+}
+
+/* 다크 모드 지원 */
+@media (prefers-color-scheme: dark) {
+  .App {
+    background: linear-gradient(135deg, #4a5568 0%, #2d3748 100%);
+  }
+
+  .container {
+    background: rgba(26, 32, 44, 0.95);
+  }
+
+  .subtitle {
+    color: #a0aec0;
+  }
+
+  .input-section {
+    background: #2d3748;
+  }
+
+  .label {
+    color: #e2e8f0;
+  }
+
+  .time-input {
+    background: #1a202c;
+    color: #e2e8f0;
+    border-color: #4a5568;
+  }
+
+  .bedtime-card {
+    background: #2d3748;
+    border-color: #4a5568;
+  }
+
+  .bedtime-time {
+    color: #e2e8f0;
+  }
+
+  .duration {
+    color: #e2e8f0;
+  }
+
+  .cycles {
+    background: #1a202c;
+    color: #a0aec0;
+  }
+
+  .result-message {
+    color: #a0aec0;
+  }
+
+  .info-box {
+    background: #2c5282;
+    border-left-color: #4299e1;
+    color: #e2e8f0;
+  }
+
+  .info-box strong {
+    color: #63b3ed;
+  }
+
+  .condition-label {
+    color: #a0aec0;
+  }
+
+  .quality-score-box {
+    background: linear-gradient(135deg, #4a5568 0%, #2d3748 100%);
+  }
+
+  .score-number,
+  .score-grade,
+  .score-description {
+    color: #e2e8f0;
+  }
+
+  .sleep-tips-box {
+    background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+    border-color: #4a5568;
+  }
+
+  .tips-title {
+    color: #63b3ed;
+  }
+
+  .tip-item {
+    background: #2d3748;
+    color: #e2e8f0;
+    border-left-color: #4299e1;
+  }
+}
+
+/* 터치 디바이스가 아닐 때만 호버 효과 적용 */
+@media (hover: hover) and (pointer: fine) {
+  .bedtime-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  }
+
+  .calculate-button:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+  }
+
+  .tip-item:hover {
+    transform: translateX(5px);
+  }
+}
+
+/* 프린트 스타일 */
+@media print {
+  .App {
+    background: white;
+    padding: 0;
+  }
+
+  .container {
+    box-shadow: none;
+    padding: 20px;
+  }
+
+  .calculate-button {
+    display: none;
+  }
+
+  .bedtime-card {
+    break-inside: avoid;
+  }
+}
+
+/* 접근성: 애니메이션 감소 선호 */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .result-section {
+    animation: none;
+  }
+
+  .bedtime-card:hover {
+    transform: none;
+  }
+
+  .calculate-button:hover:not(:disabled) {
+    transform: none;
+  }
+}
