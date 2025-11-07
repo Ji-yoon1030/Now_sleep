@@ -16,14 +16,19 @@
 npm install
 ```
 
-### 환경 변수 설정
+### 환경 변수 설정 (선택사항)
 
-프로젝트 루트에 `.env` 파일을 생성하고 다음 내용을 추가하세요:
+프로젝트는 기본적으로 배포된 백엔드 API를 사용합니다. 다른 API URL을 사용하려면 프로젝트 루트에 `.env.local` 파일을 생성하고 다음 내용을 추가하세요:
 
 ```env
-VITE_API_URL=http://localhost:3000/api
-VITE_ENV=development
+# 백엔드 API URL (Vercel 배포)
+VITE_API_URL=https://sleep-icv23b6fl-casings-projects-2809687a.vercel.app/api/v1
+
+# 또는 로컬 개발 시
+# VITE_API_URL=http://localhost:8000/api/v1
 ```
+
+**기본 설정**: 환경 변수가 없어도 프로젝트는 정상적으로 작동합니다. 배포된 Vercel API를 자동으로 사용합니다.
 
 ### 개발 서버 실행
 
@@ -60,43 +65,52 @@ nowsleep/
 
 ## API 엔드포인트
 
-백엔드 서버는 다음 엔드포인트를 제공해야 합니다:
+현재 백엔드는 Vercel에 배포되어 있습니다:
+- **Base URL**: `https://sleep-icv23b6fl-casings-projects-2809687a.vercel.app/api/v1`
 
-### POST `/api/calculate-sleep`
+### POST `/api/v1/sleep/recommend`
 
 수면 시간을 계산합니다.
 
 **요청:**
 ```json
 {
-  "wakeUpTime": "07:00",
-  "timestamp": "2025-11-08T00:00:00.000Z"
+  "wake_time": "07:00"
 }
 ```
 
 **응답:**
 ```json
 {
-  "wakeUpTime": "07:00",
-  "recommendedBedtimes": [
-    {
-      "cycles": 5,
-      "hours": 7.5,
-      "bedtime": "23:16",
-      "quality": "최상"
-    }
-  ],
-  "message": "수면 주기는 90분 단위입니다."
+  "wake_time": "07:00",
+  "perfect_condition": {
+    "sleep_time": "21:45",
+    "sleep_duration": "9.2시간",
+    "cycles": 6
+  },
+  "good_condition": {
+    "sleep_time": "23:15",
+    "sleep_duration": "7.8시간",
+    "cycles": 5
+  },
+  "minimum_condition": {
+    "sleep_time": "02:15",
+    "sleep_duration": "4.8시간",
+    "cycles": 3
+  },
+  "recommendation": "좋은 기상 시간입니다! 권장 시간에 취침하시면 상쾌한 아침을 맞이할 수 있어요. ☀️",
+  "quality_score": {
+    "score": 85,
+    "grade": "A",
+    "description": "충분한 수면"
+  },
+  "sleep_tips": [
+    "😴 충분히 주무셨나요? 수면의 질도 중요합니다.",
+    "🌙 어두운 환경에서 자는 것이 멜라토닌 분비에 좋습니다.",
+    "☕ 오후 2시 이후에는 카페인을 피하세요."
+  ]
 }
 ```
-
-### POST `/api/sleep-data`
-
-수면 데이터를 저장합니다.
-
-### GET `/api/sleep-history`
-
-사용자의 수면 히스토리를 조회합니다.
 
 ## 기술 스택
 

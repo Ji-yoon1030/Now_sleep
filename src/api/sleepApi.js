@@ -1,6 +1,6 @@
 // 백엔드 API 통신을 위한 유틸리티 파일
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api'
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://sleep-icv23b6fl-casings-projects-2809687a.vercel.app/api/v1'
 
 /**
  * 수면 시간 계산 API 호출
@@ -9,7 +9,7 @@ const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api'
  */
 export const calculateSleepQuality = async (wakeTime) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/calculate-sleep`, {
+    const response = await fetch(`${API_BASE_URL}/sleep/recommend`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

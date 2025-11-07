@@ -18,26 +18,31 @@ function App() {
     setError(null);
 
     try {
+      // 환경 변수에서 API URL 가져오기
+      const API_BASE_URL =
+        import.meta.env.VITE_API_URL ||
+        "https://sleep-icv23b6fl-casings-projects-2809687a.vercel.app/api/v1";
+
       // 백엔드 API 호출
-      const response = await fetch(
-        "http://10.50.99.93:8000/api/v1/sleep/recommend",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            wake_time: wakeUpTime,
-          }),
-        }
-      );
+      const response = await fetch(`${API_BASE_URL}/sleep/recommend`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          wake_time: wakeUpTime,
+        }),
+      });
 
       if (!response.ok) {
-        throw new Error("서버 응답 오류");
+        throw new Error(`서버 응답 오류: ${response.status}`);
       }
 
       const data = await response.json();
       setSleepResult(data);
+
+      // 성공 시 에러 메시지 제거
+      setError(null);
 
       // 개발 중에는 콘솔에 로그 출력
       console.log("백엔드로 전송된 데이터:", { wake_time: wakeUpTime });
@@ -45,8 +50,10 @@ function App() {
     } catch (err) {
       console.error("API 호출 오류:", err);
 
-      // 백엔드가 아직 준비되지 않았을 경우 임시 데이터 표시
-      setError("백엔드 서버에 연결할 수 없습니다. (임시 데이터를 표시합니다)");
+      // 백엔드 서버 연결 실패 시 임시 데이터 표시
+      setError(
+        "백엔드 서버에 연결할 수 없습니다. 임시 데이터를 표시합니다. 잠시 후 다시 시도해주세요."
+      );
 
       // 임시 응답 데이터 (개발용)
       const mockData = calculateSleepQuality(wakeUpTime);
